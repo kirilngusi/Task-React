@@ -1,70 +1,26 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Tạo 1 react app mô phỏng login, register.
 
-In the project directory, you can run:
+Bạn clone API server này: https://github.com/auth0-blog/nodejs-jwt-authentication-sample
+- Chạy node server.js
+- Server này bao gồm các API như trong README.md. Yêu cầu bạn đọc docs để hiểu API
 
-### `npm start`
+App bao gồm các trang sau:
+- Trang Login tại path  /login: Bao gồm 1 form nhập username, password, submit
+- Trang Register tại path /register: Bao gồm 1 form nhập username, password, confirm password, submit. Bonus: firstname, lastname, address, ... tùy bạn (Bạn lưu thông tin bonus ở field extra trong api)
+- Trang Home (protected)tại path / : Nếu user chưa login, sẽ redirect về /login. Trang này hiển thị thông tin từ API api/protected/random-quote. 
+- Trang Profile (protected) tại path /profile: Nếu user chưa login, sẽ redirect về /login. Trang này hiển thị thông tin người dùng, hoặc hiển thị cái gì bạn thích lúc register (trong api có trường extra) Có nút logout, sẽ xóa user trong redux và token trong localStorage, sau đó redirect về /login
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Yêu cầu: 
+- Sử dụng react-router. Biết cách tạo ProtectedRoute Component.
+- Sử dụng axios gọi APIs.
+- Các component có trạng thái Loading khi gọi API
+- Biết sử dụng Authorization header để tạo request tới protected API route
+- Sử dụng redux (thunk hay saga tùy bạn) để lưu thông tin user.
+- Sử dụng localStorage để lưu access_token và id_token
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Yêu cầu bonus (advanced tasks):
+- Set up project sử dụng sass + bootstrap/ materialUI/ antD tùy bạn
+- Set up project sử dụng i18n một cách đơn giản. Sử dụng cho các label của app. Các label có thể chuyển qua các ngôn ngữ khác nhau. Có 1 dropdown để chuyển ngôn ngữ ở Navbar
+- Host project + API trên Github, heroku hoặc AWS
