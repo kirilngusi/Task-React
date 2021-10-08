@@ -1,11 +1,16 @@
-Xây dựng ứng dụng theo dõi tỷ giá các đồng coin theo thời gian thực sử dụng Websocket, Chart.js
+Task level 3: Hiển thị sự thay đổi của đồng tiền trên line chart sử dụng chart.js một cách đơn giản (https://www.chartjs.org/docs/latest/)
+- install 2 packages này: react-chartjs-2, chart.js  (https://github.com/reactchartjs/react-chartjs-2)
+- Nghiên cứu cách sử dụng Linechart của chartjs
+- Đầu tiền cần tạo 1 cái chart cơ bản bằng linechart với data cố định trước:
+  • Biết cách set Max, min cho trục X.
+  • Biết cách set label cho trục Y
+  • Biết cách thay đổi data cho chart bằng state
+- Sau đó ghép data từ trades vào:
+  • Trục X là price. Max X là Math.max(trades) * 1.001, Min X là  Math.max(trades) * 0.999
+  • Trục Y là datetime của giao dịch: dưới dạng "hh:mm:ss"
+  • Chỉ Update data cho chart sau mỗi 2s. (Không update liên tục, vì sẽ bị trùng Y label) (Bạn phải sử dụng setInterval và clearInterval sao cho hợp lý)
 
-Task level 1: Xây dựng 1 bảng, hiển thị các giao dịch theo thời gian thực
-- Tự nghiên cứu cách kết nối tới một Websocket server
-- Đọc document và sử dụng Websocket API này để subscribe các giao dịch (trades) mới từ channel Trade Streams, theo dõi tỷ giá của đồng BTCUSDT: https://binance-docs.github.io/apidocs/spot/en/#trade-streams
-- Liên tục hiển thị tối đa 20 trades gần nhất trên 1 bảng. Nếu quá 20 trades bạn phải xóa các trades cũ và hiển thị trades mới
-- Hiển thị các thông tin bao gồm: Trade ID, Price, Quantity, -Buyer ID, Seller ID, Trade time
-- Lưu ý:
-  • Bài tập này kiểm tra kỹ năng xử lý state và tối ưu sử dụng state của bạn. Đồng thời bổ sung cho bạn kiến thức về Websocket API.
-  • Chỉ cần sử dụng thư viện đáp ứng yêu cầu bài tập này (K cần sử dụng redux, router, ...)
-  • Nhớ unsubscribe websocket event khi component unmount để tránh request về khi không cần thiết
+- Một số gợi ý:
+  • Bạn truyền trades vào prop cho component Chart. Rồi xử lý array trade trong component Chart
+  • setInterval trong useEffect, rồi lưu intervalId vào trong state. Rồi clearInterval sử dụng intervalId đó
+  • Có 1 array khác để lưu  data sẽ đc hiển thị trên chart. Mỗi 2s push giá trị gần nhất từ trades props vào array này.
