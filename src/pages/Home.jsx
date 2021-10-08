@@ -1,7 +1,8 @@
 import React from "react";
+import "./Home.css";
 import { useEffect, useRef, useState } from "react";
-import { Trades } from "../components/Trades";
-// const URL_WEB_SOCKET = "wss://stream.binance.com:9443/ws";
+import Table from "../components/Table/Trades";
+import Dropdown from "../components/SelectCoin/selectCoin";
 const URL_WEB_SOCKET = "wss://stream.binance.com:9443/ws/btcusdt@trade";
 
 const randomId = () => {
@@ -10,7 +11,9 @@ const randomId = () => {
 const Home = () => {
   const [trades, setTrades] = useState([]);
   const [ws, setWs] = useState(null);
-
+  const [currentCoin, setCurrentCoin] = useState("btcusdt");
+  const prevCoin = useRef(currentCoin);
+  // console.log(prevCoin);
   useEffect(() => {
     const wsClient = new WebSocket(URL_WEB_SOCKET);
     wsClient.onopen = () => {
@@ -26,16 +29,37 @@ const Home = () => {
   }, []); // Arrray rỗng, nên chỉ gọi lần đầu tiên khi component render. Tương đương componentDidMount
 
   useEffect(() => {
+    const id = randomId();
+    const requestUnSubcribe = {
+      method: "UNSUBSCRIBE",
+      params: [`${prevCoin.current}@trade`],
+      id: id,
+    };
+
+    const requestSubcribe = {
+      method: "SUBSCRIBE",
+      params: [`${currentCoin}@trade`],
+      id: id,
+    };
+
     if (ws) {
-      //... điền tiếp vào chỗ trống
+      ws.send(JSON.stringify(requestUnSubcribe));
+      setTrades([]);
+      // setSortedTrades([]);
+      ws.send(JSON.stringify(requestSubcribe));
+    }
+  }, [currentCoin, prevCoin, ws]);
+
+  useEffect(() => {
+    prevCoin.current = currentCoin;
+  }, [currentCoin]);
+
+  useEffect(() => {
+    if (ws) {
       ws.onmessage = (e) => {
         const trade = JSON.parse(e.data);
-        // console.log(trade);
         const newTrades = [...trades];
         addTradeToList(trade, newTrades);
-        // console.log(trade.e == true);
-        // setTrades(trade);
-        // console.log({ trades });
       };
     }
   }, [ws, trades]); // Cái này tương đương componentDidUpdate
@@ -55,11 +79,19 @@ const Home = () => {
     }
   };
 
+  const handleChangeCoin = (coinCode) => {
+    setCurrentCoin(coinCode);
+    console.log(currentCoin);
+  };
   return (
-    <div className="app__home">
-      {/* <Trades trades={trades} /> */}
-      <Trades trades={trades} />
-    </div>
+    <>
+      <div className="app__home">
+        <div className="nav__selection">
+          <Dropdown handleChangeCoin={handleChangeCoin} />
+        </div>
+        <Table trades={trades} />
+      </div>
+    </>
   );
 };
 export default Home;

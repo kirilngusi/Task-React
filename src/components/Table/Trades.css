@@ -1,0 +1,32 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    /* border: 1px solid #dddddd; */
+    text-align: center;
+    padding: 8px;
+    background-color: rgb(22, 26, 30);
+    color: rgb(183, 189, 198);
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+.up {
+  color: rgb(14, 203, 129);
+}
+
+.down {
+  color: rgb(246, 70, 93);
+
+}
+
+.equal {
+  color: #575555;
+}
+
+/* .content__table {} */
